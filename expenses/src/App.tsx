@@ -34,9 +34,19 @@ const initialExpenses: IExpense[] = [
     amount: 0,
     category: ""
   })
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
+e.preventDefault()
+const newExpense = {
+  ...formData,
+  id: Date.now()
+}
+setExpenses((old) => [...old, newExpense])
+ }
+ 
   useEffect(() => { 
+    console.log(expenses)
 setTotal(expenses.reduce(
-  (acc, el) => acc + el.amount ,
+  (acc, el) => +acc + +el.amount ,
   0
 )) 
   },
@@ -47,7 +57,8 @@ setTotal(expenses.reduce(
     <h1>Expense Tracker</h1>
     {/* Input Form */}
     <Form formData={formData}
-    setFormData={setFormData} />
+    setFormData={setFormData}
+    handleSubmit={handleSubmit} />
     <div className="total">Total: ${Math.round(total)}</div>
     {/* Expense List */}
     {expenses.map((el) => <ExpenseCard {...el} />)} 
